@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DemoStore | Meta Ads Practice</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+    header {
+      background: #171717;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .product {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 3px 12px #00000012;
+    }
+    button {
+      background: #171717;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 14px 25px;
+      cursor: pointer;
+      margin: 8px;
+    }
+    button:hover { background: #555; }
+    .hidden { display: none; }
+    .notice { color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DemoStore</h1>
+    <p>Your Practice Shopping Website</p>
+  </header>
+
+  <main>
+    <section class="product">
+      <div id="shop">
+        <h2>Wireless Headphones</h2>
+        <p>Premium sound. Modern design.</p>
+        <h3>₹2,999</h3>
+        <button onclick="viewProduct()">View Product</button>
+      </div>
+
+      <div id="details" class="hidden">
+        <h2>Wireless Headphones</h2>
+        <p>Price: ₹2,999</p>
+        <button onclick="addToCart()">Add to Cart</button>
+      </div>
+
+      <div id="cart" class="hidden">
+        <h2>Your Cart</h2>
+        <p>Wireless Headphones — ₹2,999</p>
+        <button onclick="checkout()">Checkout</button>
+      </div>
+
+      <div id="payment" class="hidden">
+        <h2>Demo Checkout</h2>
+        <p>No real payment is required.</p>
+        <button onclick="purchase()">Complete Test Order</button>
+      </div>
+
+      <div id="success" class="hidden">
+        <h2>Order Successful!</h2>
+        <p>This was only a simulated purchase.</p>
+        <button onclick="location.reload()">Shop Again</button>
+      </div>
+
+      <p class="notice">
+        Demo website for Meta Ads training only.
+        No real products or payments.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    function show(section) {
+      ["shop", "details", "cart", "payment", "success"]
+        .forEach(id => {
+          document.getElementById(id)
+            .classList.add("hidden");
+        });
+      document.getElementById(section)
+        .classList.remove("hidden");
+    }
+
+    function track(event, data) {
+      if (typeof fbq === "function") {
+        fbq("track", event, data);
+      }
+    }
+
+    function viewProduct() {
+      show("details");
+      track("ViewContent", {
+        content_name: "Wireless Headphones",
+        content_ids: ["headphones-001"],
+        content_type: "product",
+        value: 2999,
+        currency: "INR"
+      });
+    }
+
+    function addToCart() {
+      show("cart");
+      track("AddToCart", {
+        content_ids: ["headphones-001"],
+        content_type: "product",
+        value: 2999,
+        currency: "INR"
+      });
+    }
+
+    function checkout() {
+      show("payment");
+      track("InitiateCheckout", {
+        value: 2999,
+        currency: "INR",
+        num_items: 1
+      });
+    }
+
+    function purchase() {
+      show("success");
+      track("Purchase", {
+        value: 2999,
+        currency: "INR"
+      });
+    }
+  </script>
+</body>
+</html>
